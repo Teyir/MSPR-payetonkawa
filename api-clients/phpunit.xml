@@ -1,0 +1,8 @@
+<!-- phpunit.xml -->
+<phpunit bootstrap="test_loader.php" testdox="true">
+    <testsuites>
+        <testsuite name="ClientsTests">
+            <directory>Tests</directory>
+        </testsuite>
+    </testsuites>
+</phpunit>
