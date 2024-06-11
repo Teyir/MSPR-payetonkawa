@@ -11,6 +11,7 @@
 #Exclude cache folder
 */Cache/*
 *!/Cache/.gitkeep
+*!/Cache/*/.gitkeep
 
 #Exclude logs folder
 */Logs/*
