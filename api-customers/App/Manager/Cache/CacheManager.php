@@ -81,5 +81,20 @@ class CacheManager
         }
     }
 
+    public static function deleteSpecificCacheFileWithPath(string $filePath): void
+    {
+        unlink($filePath);
+    }
+
+    public static function deleteCacheFilesForFolder(string $folder): void
+    {
+        $files = glob("Cache/$folder/*");
+
+        foreach ($files as $file) {
+            if (is_file($file) && pathinfo($file, PATHINFO_EXTENSION) === "cache") {
+                unlink($file);
+            }
+        }
+    }
 
 }
