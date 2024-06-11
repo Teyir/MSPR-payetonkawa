@@ -1,0 +1,23 @@
+#### Général
+.idea/
+.DS_Store
+.AppleDouble
+.LSOverride
+
+
+#### API'S
+*/.env
+
+#Exclude cache folder
+*/Cache/*
+*!/Cache/.gitkeep
+
+#Exclude logs folder
+*/Logs/*
+*!/Logs/.gitkeep
+
+#Exclude phpUnit cache file
+*/.phpunit.result.cache
+
+
+#### WEB
