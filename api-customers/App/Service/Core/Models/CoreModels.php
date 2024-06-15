@@ -93,9 +93,7 @@ class CoreModels extends AbstractModel
         $sql = "UPDATE customers.customers SET first_name = :first_name,  last_name = :last_name, email = :email 
                                 WHERE id = :id";
         $db = DatabaseManager::getInstance();
-        $req = $db->prepare($sql);
-
-        return $req->execute($data);
+        return $db->prepare($sql)->execute($data);
     }
 
     /**
@@ -107,8 +105,44 @@ class CoreModels extends AbstractModel
     {
         $sql = "DELETE FROM customers.customers WHERE id = :id";
         $db = DatabaseManager::getInstance();
+        return $db->prepare($sql)->execute(['id' => $id]);
+    }
+
+    /**
+     * @param string $email => <b>hashed email.</b>
+     * @param string $password
+     * @return int|null
+     * @desc Get user id if credentials match.
+     */
+    public function isCredentialsMatch(string $email, string $password): ?int
+    {
+        $sql = "SELECT password, id FROM customers.customers WHERE email = :email";
+        $db = DatabaseManager::getInstance();
         $req = $db->prepare($sql);
 
-        return $req->execute(['id' => $id]);
+        if (!$req->execute(['email' => $email])) {
+            return null;
+        }
+
+        $res = $req->fetch();
+
+        if (!$res) {
+            return null;
+        }
+
+        return password_verify($password, $res['password']) ? $res['id'] : null;
+    }
+
+    /**
+     * @param int $userId
+     * @return bool
+     * @desc Update last login date in DB
+     */
+    public function updateLoginDate(int $userId): bool
+    {
+        $sql = "UPDATE customers.customers SET last_login = CURRENT_TIMESTAMP
+                                WHERE id = :id";
+        $db = DatabaseManager::getInstance();
+        return $db->prepare($sql)->execute(['id' => $userId]);
     }
 }

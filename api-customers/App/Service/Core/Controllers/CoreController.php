@@ -11,6 +11,7 @@ use Customers\Manager\Router\LinkTypes;
 use Customers\Manager\Security\EncryptManager;
 use Customers\Manager\Security\FilterManager;
 use Customers\Model\Core\CoreModels;
+use JsonException;
 
 class CoreController extends AbstractController
 {
@@ -55,7 +56,11 @@ class CoreController extends AbstractController
     #[Link("/customers/:id", LinkTypes::PUT, ['id' => '[0-9]+'])]
     private function updateCustomer(int $id): array
     {
-        $data = json_decode(file_get_contents('php://input', 'r'), true);
+        try {
+            $data = json_decode(file_get_contents('php://input', 'r'), true, 512, JSON_THROW_ON_ERROR);
+        } catch (JsonException $e) {
+            RequestsError::returnError(RequestsErrorsTypes::INTERNAL_SERVER_ERROR, ['Description' => "Unable to decode PUT data."]);
+        }
 
         if (!isset($data['first_name'], $data['last_name'], $data['email'])) {
             RequestsError::returnError(RequestsErrorsTypes::WRONG_PARAMS);
@@ -92,5 +97,29 @@ class CoreController extends AbstractController
         CacheManager::deleteCacheFilesForFolder('Customers');
 
         return ['status' => 1];
+    }
+
+    #[Link("/customers/login", LinkTypes::POST)]
+    private function loginCustomer(): array
+    {
+        if (!isset($_POST['email'], $_POST['password'])) {
+            RequestsError::returnError(RequestsErrorsTypes::WRONG_PARAMS);
+        }
+
+        $email = FilterManager::filterInputStringPost('email');
+        $password = FilterManager::filterInputStringPost('password');
+
+        $securedEmail = EncryptManager::encrypt($email);
+
+        $userId = CoreModels::getInstance()->isCredentialsMatch($securedEmail, $password);
+
+        if (is_null($userId)) {
+            RequestsError::returnError(RequestsErrorsTypes::NOT_FOUND);
+        }
+
+        $user = CoreModels::getInstance()->getById($userId);
+        CoreModels::getInstance()->updateLoginDate($userId);
+
+        return $user;
     }
 }
