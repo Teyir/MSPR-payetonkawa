@@ -42,6 +42,10 @@ class CoreController extends AbstractController
         $securedEmail = EncryptManager::encrypt($email);
         $securedPassword = password_hash($password, PASSWORD_BCRYPT);
 
+        if (CoreModels::getInstance()->isEmailAlreadyUsed($securedEmail)) {
+            RequestsError::returnError(RequestsErrorsTypes::CONTENT_ALREADY_EXIST);
+        }
+
         $userId = CoreModels::getInstance()->create($firstName, $lastName, $securedEmail, $securedPassword);
 
         if (is_null($userId)) {

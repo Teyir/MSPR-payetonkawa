@@ -145,4 +145,21 @@ class CoreModels extends AbstractModel
         $db = DatabaseManager::getInstance();
         return $db->prepare($sql)->execute(['id' => $userId]);
     }
+
+    /**
+     * @param string $email
+     * @return bool
+     */
+    public function isEmailAlreadyUsed(string $email): bool
+    {
+        $sql = "SELECT id FROM customers.customers WHERE email = :email";
+        $db = DatabaseManager::getInstance();
+        $req = $db->prepare($sql);
+
+        if (!$req->execute(['email' => $email])) {
+            return false;
+        }
+
+        return !empty($req->fetch());
+    }
 }
