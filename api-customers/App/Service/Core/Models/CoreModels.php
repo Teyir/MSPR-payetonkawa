@@ -61,7 +61,7 @@ class CoreModels extends AbstractModel
      */
     public function getById(int $id): array
     {
-        $sql = "SELECT id, first_name, last_name, email, date_created, date_updated, last_login 
+        $sql = "SELECT id, first_name, last_name, email, date_created, date_updated, last_login, is_admin 
                     FROM customers.customers WHERE id = :id";
         $db = DatabaseManager::getInstance();
         $req = $db->prepare($sql);
