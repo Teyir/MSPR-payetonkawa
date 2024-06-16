@@ -7,6 +7,8 @@ use ReflectionMethod;
 use WEB\Manager\Requests\HttpMethodsType;
 use WEB\Manager\Security\RateLimiter;
 use WEB\Manager\Security\SecurityManager;
+use WEB\Model\Users\UsersModel;
+use WEB\Utils\Redirect;
 
 class Router
 {
@@ -159,8 +161,16 @@ class Router
 
         $matchedRoute = $this->getRouteByUrl($this->url);
 
+
+
+
+
         if (is_null($matchedRoute)) {
             throw new RouterException('No matching routes', 404);
+        }
+
+        if (str_contains($matchedRoute?->getPath(), 'admin') && !UsersModel::getInstance()->isAdmin()){
+            Redirect::redirectToHome();
         }
 
         self::setActualRoute($matchedRoute);

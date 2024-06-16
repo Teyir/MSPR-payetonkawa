@@ -5,18 +5,15 @@ namespace WEB\Manager\Package;
 class PackageSubMenuType
 {
     private string $title;
-    private string $permission;
     private string $url;
 
     /**
      * @param string $title
-     * @param string $permission
      * @param string $url
      */
-    public function __construct(string $title, string $permission, string $url)
+    public function __construct(string $title, string $url)
     {
         $this->title = $title;
-        $this->permission = $permission;
         $this->url = $url;
     }
 
@@ -26,14 +23,6 @@ class PackageSubMenuType
     public function getTitle(): string
     {
         return $this->title;
-    }
-
-    /**
-     * @return string
-     */
-    public function getPermission(): string
-    {
-        return $this->permission;
     }
 
     /**

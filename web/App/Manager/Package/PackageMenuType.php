@@ -8,7 +8,6 @@ class PackageMenuType
     private string $icon;
     private string $title;
     private ?string $url;
-    private ?string $permission;
     /* @var \WEB\Manager\Package\PackageSubMenuType[]|null $subMenus */
     private ?array $subMenus;
 
@@ -17,16 +16,14 @@ class PackageMenuType
      * @param string $icon
      * @param string $title
      * @param string|null $url
-     * @param string|null $permission
      * @param \WEB\Manager\Package\PackageSubMenuType[]|null $subMenus
      */
-    public function __construct(string $lang, string $icon, string $title, ?string $url, ?string $permission, ?array $subMenus)
+    public function __construct(string $lang, string $icon, string $title, ?string $url, ?array $subMenus)
     {
         $this->lang = $lang;
         $this->icon = $icon;
         $this->title = $title;
         $this->url = $url;
-        $this->permission = $permission;
         $this->subMenus = $subMenus;
     }
 
@@ -60,14 +57,6 @@ class PackageMenuType
     public function getUrl(): ?string
     {
         return $this->url;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getPermission(): ?string
-    {
-        return $this->permission;
     }
 
     /**
