@@ -20,7 +20,6 @@ class UsersModel extends AbstractModel
             HttpMethodsType::POST,
             APITypes::CUSTOMERS,
             'customers/login',
-            false,
             [
                 'email' => $email,
                 'password' => $password,
@@ -49,7 +48,6 @@ class UsersModel extends AbstractModel
             HttpMethodsType::POST,
             APITypes::CUSTOMERS,
             'customers',
-            false,
             [
                 'first_name' => $firstName,
                 'last_name' => $lastName,
@@ -83,7 +81,6 @@ class UsersModel extends AbstractModel
             HttpMethodsType::GET,
             APITypes::CUSTOMERS,
             "customers/$id",
-            false,
         );
 
         if (!isset($req['id'])) {

@@ -28,6 +28,12 @@ class CoreController extends AbstractController
         return CoreModels::getInstance()->getAll(true);
     }
 
+    #[Link("/products/:id", LinkTypes::GET, ['id' => '[0-9]+'])]
+    private function getProductsById(int $id): array
+    {
+        return CoreModels::getInstance()->getById($id);
+    }
+
     #[Link("/products", LinkTypes::POST)]
     private function createProduct(): array
     {
@@ -70,7 +76,7 @@ class CoreController extends AbstractController
             RequestsError::returnError(RequestsErrorsTypes::INTERNAL_SERVER_ERROR, ['Description' => "Unable to delete product."]);
         }
 
-        unlink(EnvManager::getInstance()->getValue('DIR') . 'Public/Images/' . $product['image'] );
+        unlink(EnvManager::getInstance()->getValue('DIR') . 'Public/Images/' . $product['image']);
 
         CacheManager::deleteAllFiles();
 

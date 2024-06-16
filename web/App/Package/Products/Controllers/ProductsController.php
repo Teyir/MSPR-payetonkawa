@@ -57,4 +57,52 @@ class ProductsController extends AbstractController
 
         Redirect::redirectPreviousRoute();
     }
+
+    #[Link('/manage/edit/:id', Link::GET, ['id' => '[0-9]+'], "/admin/products")]
+    private function productsEdit(int $id): void
+    {
+        $product = ProductModel::getInstance()->getById($id);
+
+        if (is_null($product)) {
+            Redirect::errorPage(404);
+        }
+
+        View::createAdminView("Products", "edit")
+            ->addVariableList(['product' => $product])
+            ->view();
+    }
+
+    #[NoReturn] #[Link('/manage/edit/:id', Link::POST, ['id' => '[0-9]+'], "/admin/products")]
+    private function productsEditPost(int $id): void
+    {
+        $title = FilterManager::filterInputStringPost("title", 50);
+        $description = FilterManager::filterInputStringPost("description", 65000);
+        $price = FilterManager::filterInputFloatPost("price_kg");
+
+        if (!ProductModel::getInstance()->update($id, $title, $description, $price)) {
+            Flash::send(Alert::ERROR, 'Erreur', "Impossible de modifier le produit.");
+        } else {
+            Flash::send(Alert::SUCCESS, "Succès", "Produit modifié !");
+        }
+
+        Redirect::redirectPreviousRoute();
+    }
+
+    #[NoReturn] #[Link('/manage/delete/:id', Link::GET, ['id' => '[0-9]+'], "/admin/products")]
+    private function productsDelete(int $id): void
+    {
+        $product = ProductModel::getInstance()->getById($id);
+
+        if (is_null($product)) {
+            Redirect::errorPage(404);
+        }
+
+        if (ProductModel::getInstance()->delete($id)) {
+            Flash::send(Alert::SUCCESS, "Succès", "Produit supprimé !");
+            Redirect::redirect("admin/products/manage");
+        } else {
+            Flash::send(Alert::ERROR, 'Erreur', "Impossible de supprimer le produit.");
+            Redirect::redirectPreviousRoute();
+        }
+    }
 }
