@@ -65,11 +65,22 @@ class FilterManager
      * @param string $data
      * @param int $maxLength
      * @return int
-     * @desc Securely filter data with maxlength parameter => optimized for strings
+     * @desc Securely filter data with maxlength parameter => optimized for int
      */
     public static function filterInputIntPost(string $data, int $maxLength = 128): int
     {
         return (int)mb_substr(trim(filter_input(INPUT_POST, $data, FILTER_SANITIZE_NUMBER_INT)), 0, $maxLength);
+    }
+
+    /**
+     * @param string $data
+     * @param int $maxLength
+     * @return float
+     * @desc Securely filter data with maxlength parameter => optimized for floats
+     */
+    public static function filterInputFloatPost(string $data, int $maxLength = 128): float
+    {
+        return (int)mb_substr(trim(filter_input(INPUT_POST, $data, FILTER_SANITIZE_NUMBER_FLOAT)), 0, $maxLength);
     }
 
     /**
