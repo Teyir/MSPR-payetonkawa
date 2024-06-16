@@ -37,7 +37,14 @@ Website::setDescription("Gérez les produits.");
                                     <td><?= $product->getPricePerKg() ?>€</td>
                                     <td><?= $product->getKgRemaining() ?></td>
                                     <td>XXX</td>
-                                    <td>ACTIONS</td>
+                                    <td>
+                                        <a href="manage/edit/<?= $product->getId() ?>" class="text-primary mr-3">
+                                            <i class="fa fa-cog"></i>
+                                        </a>
+                                        <a href="manage/delete/<?= $product->getId() ?>" class="text-danger mr-3">
+                                            <i class="fa fa-trash"></i>
+                                        </a>
+                                    </td>
                                 </tr>
                             <?php endforeach; ?>
                             </tbody>

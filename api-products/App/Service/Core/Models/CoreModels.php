@@ -114,9 +114,11 @@ class CoreModels extends AbstractModel
 
         $res = $req->fetch();
 
-        if (!$res){
+        if (!$res) {
             return [];
         }
+
+        $res['image'] = EnvManager::getInstance()->getValue('URL') . '/Public/Images/' . $res['image'];
 
         return $res;
     }

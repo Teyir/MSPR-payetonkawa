@@ -23,7 +23,6 @@ class ProductModel extends AbstractModel
             HttpMethodsType::GET,
             APITypes::PRODUCTS,
             $slug,
-            false,
         );
 
         $toReturn = [];
@@ -33,6 +32,25 @@ class ProductModel extends AbstractModel
         }
 
         return $toReturn;
+    }
+
+    /**
+     * @param int $id
+     * @return \WEB\Entity\Products\ProductEntity|null
+     */
+    public function getById(int $id): ?ProductEntity
+    {
+        $req = APIManager::getInstance()->send(
+            HttpMethodsType::GET,
+            APITypes::PRODUCTS,
+            "products/$id",
+        );
+
+        if (empty($req)) {
+            return null;
+        }
+
+        return ProductEntity::map($req);
     }
 
     /**
@@ -49,7 +67,6 @@ class ProductModel extends AbstractModel
             HttpMethodsType::POST,
             APITypes::PRODUCTS,
             'products',
-            false,
             [
                 'title' => $title,
                 'description' => $description,
@@ -60,5 +77,43 @@ class ProductModel extends AbstractModel
         );
 
         return isset($req['id']);
+    }
+
+    /**
+     * @param int $id
+     * @param string $title
+     * @param string $description
+     * @param float $priceKg
+     * @return bool
+     */
+    public function update(int $id, string $title, string $description, float $priceKg): bool
+    {
+        $req = APIManager::getInstance()->send(
+            HttpMethodsType::PUT,
+            APITypes::PRODUCTS,
+            "products/$id",
+            [
+                'title' => $title,
+                'description' => $description,
+                'price_kg' => $priceKg,
+            ],
+        );
+
+        return isset($req['id']);
+    }
+
+    /**
+     * @param int $id
+     * @return bool
+     */
+    public function delete(int $id): bool
+    {
+        APIManager::getInstance()->send(
+            HttpMethodsType::DELETE,
+            APITypes::PRODUCTS,
+            "products/$id",
+        );
+
+        return true;
     }
 }
