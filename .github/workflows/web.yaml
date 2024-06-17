@@ -22,6 +22,9 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
+      - name: Change directory to 'web'
+        run: cd web
+
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
 
@@ -42,6 +45,7 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v2
         with:
+          context: .
           push: true
           tags: ghcr.io/payetonkawa-web:latest
           labels: ${{ steps.meta.outputs.labels }}
