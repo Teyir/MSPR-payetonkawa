@@ -7,6 +7,7 @@ enum APITypes
     case CUSTOMERS;
     case ORDERS;
     case PRODUCTS;
+    case MAILS;
 
     public static function fromName(string $name): APITypes
     {

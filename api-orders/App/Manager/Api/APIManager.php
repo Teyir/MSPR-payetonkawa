@@ -1,6 +1,6 @@
 <?php
 
-namespace ORDERS\Manager\Api;
+namespace Orders\Manager\Api;
 
 use JsonException;
 use Orders\Manager\Class\AbstractManager;
@@ -25,6 +25,7 @@ class APIManager extends AbstractManager
             APITypes::CUSTOMERS => EnvManager::getInstance()->getValue("API_URL_CUSTOMERS"),
             APITypes::ORDERS => EnvManager::getInstance()->getValue("API_URL_ORDERS"),
             APITypes::PRODUCTS => EnvManager::getInstance()->getValue("API_URL_PRODUCTS"),
+            APITypes::MAILS => EnvManager::getInstance()->getValue("API_URL_MAILS"),
         };
 
         $headers = [
