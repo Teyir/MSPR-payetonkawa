@@ -110,4 +110,32 @@ class CoreController extends AbstractController
 
         return ['status' => 1, 'id' => $id];
     }
+
+    #[Link("/products/:id/take", LinkTypes::PUT, ['id' => '[0-9]+'])]
+    private function takeStock(int $id): array
+    {
+        try {
+            $data = json_decode(file_get_contents('php://input', 'r'), true, 512, JSON_THROW_ON_ERROR);
+        } catch (JsonException $e) {
+            RequestsError::returnError(RequestsErrorsTypes::INTERNAL_SERVER_ERROR, ['Description' => "Unable to decode PUT data."]);
+        }
+
+        if (empty(CoreModels::getInstance()->getById($id))) {
+            RequestsError::returnError(RequestsErrorsTypes::NOT_FOUND);
+        }
+
+        if (!isset($data['amount'])) {
+            RequestsError::returnError(RequestsErrorsTypes::WRONG_PARAMS);
+        }
+
+        $amount = (float)FilterManager::filterData($data['amount'], 50, FILTER_SANITIZE_NUMBER_FLOAT);
+
+        if (!CoreModels::getInstance()->decrementStock($id, $amount)) {
+            RequestsError::returnError(RequestsErrorsTypes::INTERNAL_SERVER_ERROR, ['Description' => "Unable to decrement stock."]);
+        }
+
+        CacheManager::deleteAllFiles();
+
+        return ['status' => 1];
+    }
 }

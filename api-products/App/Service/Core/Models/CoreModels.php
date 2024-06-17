@@ -134,4 +134,16 @@ class CoreModels extends AbstractModel
         $db = DatabaseManager::getInstance();
         return $db->prepare($sql)->execute(['id' => $id]);
     }
+
+    /**
+     * @param int $id
+     * @param float $amount
+     * @return bool
+     */
+    public function decrementStock(int $id, float $amount): bool
+    {
+        $sql = "UPDATE products.products SET kg_remaining = (kg_remaining - :amount) WHERE id = :id";
+        $db = DatabaseManager::getInstance();
+        return $db->prepare($sql)->execute(['id' => $id, 'amount' => $amount]);
+    }
 }
