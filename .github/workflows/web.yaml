@@ -9,6 +9,15 @@ jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
 
+    services:
+      docker:
+        image: docker:19.03.12
+        options: --privileged
+        ports:
+          - 8080:80
+        env:
+          DOCKER_CLI_EXPERIMENTAL: enabled
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -16,18 +25,30 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
 
-      - name: Log in to Docker Hub
+      - name: Login to Docker Hub
         uses: docker/login-action@v1
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
-      - name: Build and push Docker image
+      - name: Prepare metadata
+        id: meta
+        uses: docker/metadata-action@v3
+        with:
+          images: ghcr.io/${{ env.IMAGE_NAME }}
+          tags: |
+            type=ref,event=branch
+            type=ref,event=pr
+            type=ref,event=tag
+
+      - name: Build and push
         uses: docker/build-push-action@v2
         with:
-          context: .
+          build-args: |
+            APP_RELEASE=${{ github.sha }}
           push: true
-          tags: ${{ secrets.DOCKER_USERNAME }}/payetonkawa-web:latest
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
 
       - name: Deploy to server
         env:
@@ -37,8 +58,8 @@ jobs:
         run: |
           echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add - > /dev/null
           ssh -o StrictHostKeyChecking=no $USER@$SERVER << 'EOF'
-            docker pull ${{ secrets.DOCKER_USERNAME }}/payetonkawa-web:latest
+            docker pull ghcr.io/${{ github.repository }}/latest
             docker stop payetonkawa-web || true
             docker rm payetonkawa-web || true
-            docker run -d --name payetonkawa-web -p 8080:80 ${{ secrets.DOCKER_USERNAME }}/payetonkawa-web:latest
+            docker run -d --name payetonkawa-web -p 8080:80 ghcr.io/${{ github.repository }}/latest
           EOF
