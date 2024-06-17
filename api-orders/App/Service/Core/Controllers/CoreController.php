@@ -2,22 +2,23 @@
 
 namespace Orders\Controller\Core;
 
+use Orders\Manager\Api\APIManager;
+use Orders\Manager\Api\APITypes;
+use Orders\Manager\Broker\BrokerManager;
 use Orders\Manager\Cache\CacheManager;
 use Orders\Manager\Class\AbstractController;
 use Orders\Manager\Error\RequestsError;
 use Orders\Manager\Error\RequestsErrorsTypes;
+use Orders\Manager\Requests\HttpMethodsType;
 use Orders\Manager\Router\Link;
 use Orders\Manager\Router\LinkTypes;
+use Orders\Manager\Security\EncryptManager;
 use Orders\Manager\Security\FilterManager;
 use Orders\Model\Core\CoreModels;
+use PhpAmqpLib\Message\AMQPMessage;
 
 class CoreController extends AbstractController
 {
-    /***
-     * TODO:
-     * - Passer une commande
-     */
-
     #[Link("/orders", LinkTypes::GET)]
     private function getOrders(): array
     {
@@ -52,9 +53,18 @@ class CoreController extends AbstractController
             RequestsError::returnError(RequestsErrorsTypes::INTERNAL_SERVER_ERROR, ['Description' => "Unable to decrement stock."]);
         }
 
+        //Send customer an email
+        $broker = BrokerManager::getInstance();
+        $broker->publish(
+            new AMQPMessage($userId),
+            "orders",
+        );
+
+        APIManager::getInstance()->send(HttpMethodsType::POST, APITypes::MAILS, 'send');
+
+
         CacheManager::deleteAllFiles();
 
         return ['status' => 1, 'id' => $orderId];
     }
-
 }
