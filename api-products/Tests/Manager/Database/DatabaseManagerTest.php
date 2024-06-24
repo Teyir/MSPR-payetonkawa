@@ -6,6 +6,10 @@ use PHPUnit\Framework\Attributes\TestDox;
 use Products\Manager\Database\DatabaseManager;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @uses DatabaseManager
+ * @covers DatabaseManager::getInstance
+ */
 class DatabaseManagerTest extends TestCase
 {
 

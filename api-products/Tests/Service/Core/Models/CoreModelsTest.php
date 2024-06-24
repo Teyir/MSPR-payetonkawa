@@ -6,6 +6,10 @@ use Products\Model\Core\CoreModels;
 use PHPUnit\Framework\Attributes\TestDox;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @uses CoreModels
+ * @covers CoreModels::getInstance
+ */
 class CoreModelsTest extends TestCase
 {
     private CoreModels $model;
