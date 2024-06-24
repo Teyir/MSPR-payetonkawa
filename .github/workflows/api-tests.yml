@@ -25,6 +25,25 @@ jobs:
         with:
           php-version: 8.2
 
+      - name: Create .env file
+        env:
+          API_CUSTOMERS_DB_NAME: customers
+          API_MAILS_DB_NAME: mails
+          API_ORDERS_DB_NAME: orders
+          API_PRODUCTS_DB_NAME: products
+        run: |
+          cd ${{ matrix.api }}
+          ABSOLUTE_PATH=$(pwd)
+          DB_NAME_VAR="API_$(echo ${{ matrix.api }} | tr '[:lower:]' '[:upper:]' | tr '-' '_')_DB_NAME"
+          DB_NAME=${!DB_NAME_VAR}
+          echo "PATH_SUBFOLDER=/" > .env
+          echo "DIR=$ABSOLUTE_PATH" >> .env
+          echo "TOKEN=${{ secrets.API_TOKEN }}" >> .env
+          echo "DB_HOST=${{ secrets.API_DB_HOST }}" >> .env
+          echo "DB_NAME=$DB_NAME" >> .env
+          echo "DB_USERNAME=${{ secrets.API_DB_USERNAME }}" >> .env
+          echo "DB_PASSWORD=${{ secrets.API_DB_PASSWORD }}" >> .env
+
       - name: Run PHPUnit tests
         run: |
           cd ${{ matrix.api }}
