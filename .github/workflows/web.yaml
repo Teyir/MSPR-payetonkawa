@@ -43,24 +43,24 @@ jobs:
           tags: |
             latest
 
-      - name: Build and push
-        uses: docker/build-push-action@v2
-        with:
-          context: ./web
-          push: true
-          tags: ghcr.io/payetonkawa-web:latest
-          labels: ${{ steps.meta.outputs.labels }}
-
-      - name: Deploy to server
-        env:
-          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-          SERVER: ${{ secrets.SERVER }}
-          USER: ${{ secrets.USER }}
-        run: |
-          echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add - > /dev/null
-          ssh -o StrictHostKeyChecking=no $USER@$SERVER << 'EOF'
-            docker pull ghcr.io/payetonkawa-web/latest
-            docker stop payetonkawa-web || true
-            docker rm payetonkawa-web || true
-            docker run -d --name payetonkawa-web -p 8080:80 ghcr.io/payetonkawa-web/latest
-          EOF
+#      - name: Build and push
+#        uses: docker/build-push-action@v2
+#        with:
+#          context: ./web
+#          push: true
+#          tags: ghcr.io/payetonkawa-web:latest
+#          labels: ${{ steps.meta.outputs.labels }}
+#
+#      - name: Deploy to server
+#        env:
+#          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+#          SERVER: ${{ secrets.SERVER }}
+#          USER: ${{ secrets.USER }}
+#        run: |
+#          echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add - > /dev/null
+#          ssh -o StrictHostKeyChecking=no $USER@$SERVER << 'EOF'
+#            docker pull ghcr.io/payetonkawa-web/latest
+#            docker stop payetonkawa-web || true
+#            docker rm payetonkawa-web || true
+#            docker run -d --name payetonkawa-web -p 8080:80 ghcr.io/payetonkawa-web/latest
+#          EOF
