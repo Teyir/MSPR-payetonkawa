@@ -2,10 +2,22 @@
 
 namespace Service\Core\Models;
 
-use Customers\Model\Core\CoreModels;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\TestDox;
+use PHPUnit\Framework\Attributes\UsesClass;
 use PHPUnit\Framework\TestCase;
+use Products\Manager\Class\GlobalObject;
+use Products\Manager\Database\DatabaseManager;
+use Products\Manager\Env\EnvManager;
+use Products\Manager\Loader\AutoLoad;
+use Products\Model\Core\CoreModels;
 
+#[CoversClass(CoreModels::class)]
+#[UsesClass(CoreModels::class)]
+#[UsesClass(GlobalObject::class)]
+#[UsesClass(DatabaseManager::class)]
+#[UsesClass(EnvManager::class)]
+#[UsesClass(AutoLoad::class)]
 class CoreModelsTest extends TestCase
 {
     private CoreModels $model;
@@ -18,7 +30,7 @@ class CoreModelsTest extends TestCase
     #[TestDox('Get all customers.')]
     public function testGetCustomers(): void
     {
-        $customers = $this->model->getAll();
+        $customers = $this->model->getAll(false);
 
         $this->assertNotEmpty($customers);
     }
