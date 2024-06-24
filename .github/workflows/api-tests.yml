@@ -36,11 +36,12 @@ jobs:
           ABSOLUTE_PATH=$(pwd)
           DB_NAME_VAR="API_$(echo ${{ matrix.api }} | tr '[:lower:]' '[:upper:]' | tr '-' '_')_DB_NAME"
           DB_NAME=${!DB_NAME_VAR}
+          echo $DB_NAME
           echo "PATH_SUBFOLDER=/" > .env
           echo "DIR=$ABSOLUTE_PATH" >> .env
           echo "TOKEN=${{ secrets.API_TOKEN }}" >> .env
           echo "DB_HOST=${{ secrets.API_DB_HOST }}" >> .env
-          echo "DB_NAME=customers" >> .env
+          echo "DB_NAME=$DB_NAME" >> .env
           echo "DB_USERNAME=${{ secrets.API_DB_USERNAME }}" >> .env
           echo "DB_PASSWORD=${{ secrets.API_DB_PASSWORD }}" >> .env
 
