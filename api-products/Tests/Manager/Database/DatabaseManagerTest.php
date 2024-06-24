@@ -8,7 +8,6 @@ use PHPUnit\Framework\TestCase;
 
 /**
  * @uses DatabaseManager
- * @covers DatabaseManager::getInstance
  */
 class DatabaseManagerTest extends TestCase
 {
