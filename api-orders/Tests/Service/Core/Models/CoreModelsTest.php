@@ -7,10 +7,10 @@ use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\TestDox;
 use PHPUnit\Framework\Attributes\UsesClass;
 use PHPUnit\Framework\TestCase;
-use Products\Manager\Class\GlobalObject;
-use Products\Manager\Database\DatabaseManager;
-use Products\Manager\Env\EnvManager;
-use Products\Manager\Loader\AutoLoad;
+use Orders\Manager\Class\GlobalObject;
+use Orders\Manager\Database\DatabaseManager;
+use Orders\Manager\Env\EnvManager;
+use Orders\Manager\Loader\AutoLoad;
 
 #[CoversClass(CoreModels::class)]
 #[UsesClass(CoreModels::class)]

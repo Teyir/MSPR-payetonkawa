@@ -6,11 +6,11 @@ use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\TestDox;
 use PHPUnit\Framework\Attributes\UsesClass;
 use PHPUnit\Framework\TestCase;
-use Products\Manager\Class\GlobalObject;
-use Products\Manager\Database\DatabaseManager;
-use Products\Manager\Env\EnvManager;
-use Products\Manager\Loader\AutoLoad;
-use Products\Model\Core\CoreModels;
+use Customers\Manager\Class\GlobalObject;
+use Customers\Manager\Database\DatabaseManager;
+use Customers\Manager\Env\EnvManager;
+use Customers\Manager\Loader\AutoLoad;
+use Customers\Model\Core\CoreModels;
 
 #[CoversClass(CoreModels::class)]
 #[UsesClass(CoreModels::class)]
