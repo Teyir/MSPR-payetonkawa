@@ -28,7 +28,7 @@ jobs:
       - name: Create .env file
         env:
           API_CUSTOMERS_DB_NAME: customers
-          API_MAILS_DB_NAME: mails
+          API_MAILS_DB_NAME: customers
           API_ORDERS_DB_NAME: orders
           API_PRODUCTS_DB_NAME: products
         run: |
