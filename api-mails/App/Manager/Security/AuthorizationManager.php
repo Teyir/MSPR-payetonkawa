@@ -5,11 +5,15 @@ namespace Mails\Manager\Security;
 use Mails\Manager\Env\EnvManager;
 use Mails\Manager\Error\RequestsError;
 use Mails\Manager\Error\RequestsErrorsTypes;
+use Mails\Manager\Version\VersionManager;
 
 class AuthorizationManager
 {
     public static function handleAuthorization(): void
     {
+        if ($_GET['url'] === "v" . VersionManager::VERSION) {
+            return;
+        }
 
         if (self::isAuthorized()) {
             return;

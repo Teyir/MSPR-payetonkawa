@@ -175,4 +175,11 @@ class Tools
     {
         return in_array($_SERVER['HTTPS'] ?? '', ['on', 1], true) || ($_SERVER['HTTP_X_FORWARDED_PROTO'] ?? '') === 'https' ? 'https' : 'http';
     }
+
+    public static function addIfNotNull(array &$array, mixed $value): void
+    {
+        if (!empty($value)) {
+            $array[] = $value;
+        }
+    }
 }
