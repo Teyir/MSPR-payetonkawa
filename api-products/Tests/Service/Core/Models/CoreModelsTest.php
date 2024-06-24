@@ -8,6 +8,7 @@ use PHPUnit\Framework\TestCase;
 
 /**
  * @uses CoreModels
+ * @covers
  */
 class CoreModelsTest extends TestCase
 {
