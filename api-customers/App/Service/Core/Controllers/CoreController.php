@@ -4,6 +4,7 @@ namespace Customers\Controller\Core;
 
 use Customers\Manager\Cache\CacheManager;
 use Customers\Manager\Class\AbstractController;
+use Customers\Manager\Documentation\DocumentationManager;
 use Customers\Manager\Error\RequestsError;
 use Customers\Manager\Error\RequestsErrorsTypes;
 use Customers\Manager\Router\Link;
@@ -11,22 +12,52 @@ use Customers\Manager\Router\LinkTypes;
 use Customers\Manager\Security\EncryptManager;
 use Customers\Manager\Security\FilterManager;
 use Customers\Model\Core\CoreModels;
+use JetBrains\PhpStorm\NoReturn;
 use JsonException;
 
 class CoreController extends AbstractController
 {
+
+    /**
+     * @return void
+     * @desc Return doc page
+     */
+    #[NoReturn] #[Link("/", LinkTypes::GET, [], isUsingCache: false)]
+    private function index(): void
+    {
+        new DocumentationManager();
+        die();
+    }
+
+    /**
+     * @return array
+     * @desc Return all customers
+     */
     #[Link("/customers", LinkTypes::GET)]
     private function getCustomers(): array
     {
         return CoreModels::getInstance()->getAll();
     }
 
+    /**
+     * @param int $id
+     * @return array
+     * @desc Get customer by id
+     */
     #[Link("/customers/:id", LinkTypes::GET, ['id' => '[0-9]+'])]
     private function getCustomerById(int $id): array
     {
         return CoreModels::getInstance()->getById($id);
     }
 
+    /**
+     * @return array
+     * @post first_name => strint
+     * @post last_name => string
+     * @post email => string
+     * @post password => string
+     * @desc Create customer
+     */
     #[Link("/customers", LinkTypes::POST)]
     private function createNewCustomer(): array
     {
@@ -57,6 +88,14 @@ class CoreController extends AbstractController
         return ['status' => 1, 'id' => $userId];
     }
 
+    /**
+     * @param int $id
+     * @put first_name => string
+     * @put last_name => string
+     * @put email => string
+     * @return int[]
+     * @desc Update customer
+     */
     #[Link("/customers/:id", LinkTypes::PUT, ['id' => '[0-9]+'])]
     private function updateCustomer(int $id): array
     {
@@ -85,6 +124,11 @@ class CoreController extends AbstractController
         return ['status' => 1];
     }
 
+    /**
+     * @param int $id
+     * @return int[]
+     * @desc Delete customer
+     */
     #[Link("/customers/:id", LinkTypes::DELETE, ['id' => '[0-9]+'])]
     private function deleteCustomer(int $id): array
     {
@@ -103,6 +147,12 @@ class CoreController extends AbstractController
         return ['status' => 1];
     }
 
+    /**
+     * @return array
+     * @post email => string
+     * @post password => string
+     * @desc Login user
+     */
     #[Link("/customers/login", LinkTypes::POST)]
     private function loginCustomer(): array
     {
