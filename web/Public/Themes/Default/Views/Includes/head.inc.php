@@ -42,6 +42,10 @@ $siteName = Website::getWebsiteName();
                 href="<?= EnvManager::getInstance()->getValue("PATH_SUBFOLDER") ?>Public/Themes/Default/Resources/Assets/Css/main.css"
                 rel="stylesheet"/>
 
+        <link
+                href="<?= EnvManager::getInstance()->getValue("PATH_SUBFOLDER") ?>Public/Themes/Default/Resources/Assets/Css/output.css"
+                rel="stylesheet"/>
+
         <?php
         View::loadInclude($includes, "styles");
         ?>
