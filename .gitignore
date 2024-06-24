@@ -19,6 +19,7 @@
 
 #Exclude phpUnit cache file
 */.phpunit.result.cache
+*/.phpunit.cache
 
 
 #### WEB
