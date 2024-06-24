@@ -25,13 +25,7 @@ jobs:
         with:
           php-version: 8.2
 
-      - name: Install dependencies
-        run: |
-          composer install
-          cd ${{ matrix.api }}
-          composer install
-
       - name: Run PHPUnit tests
         run: |
           cd ${{ matrix.api }}
-          ./vendor/bin/phpunit
+          php phpunit.phar
