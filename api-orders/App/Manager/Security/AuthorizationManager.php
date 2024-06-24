@@ -2,6 +2,7 @@
 
 namespace Orders\Manager\Security;
 
+use Orders\Manager\Version\VersionManager;
 use Orders\Manager\Env\EnvManager;
 use Orders\Manager\Error\RequestsError;
 use Orders\Manager\Error\RequestsErrorsTypes;
@@ -10,6 +11,9 @@ class AuthorizationManager
 {
     public static function handleAuthorization(): void
     {
+        if ($_GET['url'] === "v" . VersionManager::VERSION) {
+            return;
+        }
 
         if (self::isAuthorized()) {
             return;
