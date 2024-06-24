@@ -47,4 +47,4 @@ jobs:
       - name: Run PHPUnit tests
         run: |
           cd ${{ matrix.api }}
-          php phpunit.phar
+          php phpunit.phar --coverage-clover=coverage.xml
