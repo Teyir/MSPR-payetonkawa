@@ -48,6 +48,7 @@ jobs:
         run: |
           cd ${{ matrix.api }}
           php phpunit.phar --coverage-clover=coverage.xml
+
       - name: SonarQube
         uses: sonarsource/sonarqube-scan-action@master
         env:
