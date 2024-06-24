@@ -2,14 +2,14 @@
 
 namespace Service\Core\Models;
 
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\UsesClass;
 use Products\Model\Core\CoreModels;
 use PHPUnit\Framework\Attributes\TestDox;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @uses CoreModels
- * @covers
- */
+#[CoversClass(CoreModels::class)]
+#[UsesClass(CoreModels::class)]
 class CoreModelsTest extends TestCase
 {
     private CoreModels $model;
