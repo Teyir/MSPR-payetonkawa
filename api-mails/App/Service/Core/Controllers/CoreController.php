@@ -2,8 +2,10 @@
 
 namespace Mails\Controller\Core;
 
+use JetBrains\PhpStorm\NoReturn;
 use Mails\Manager\Broker\BrokerManager;
 use Mails\Manager\Class\AbstractController;
+use Mails\Manager\Documentation\DocumentationManager;
 use Mails\Manager\Error\RequestsError;
 use Mails\Manager\Error\RequestsErrorsTypes;
 use Mails\Manager\Router\Link;
@@ -13,6 +15,21 @@ use Mails\Model\Core\CoreModels;
 
 class CoreController extends AbstractController
 {
+
+    /**
+     * @return void
+     * @desc Return doc page
+     */
+    #[NoReturn] #[Link("/", LinkTypes::GET, [], isUsingCache: false)]
+    private function index(): void
+    {
+        new DocumentationManager();
+        die();
+    }
+
+    /**
+     * @desc Send mail with broker listener
+     */
     #[Link("/send", LinkTypes::POST)]
     private function sendMail(): array
     {

@@ -1,7 +1,7 @@
 <!-- phpunit.xml -->
 <phpunit bootstrap="test_loader.php" testdox="true">
     <testsuites>
-        <testsuite name="CustomersTests">
+        <testsuite name="ProductsTests">
             <directory>Tests</directory>
         </testsuite>
     </testsuites>

@@ -5,11 +5,15 @@ namespace Customers\Manager\Security;
 use Customers\Manager\Env\EnvManager;
 use Customers\Manager\Error\RequestsError;
 use Customers\Manager\Error\RequestsErrorsTypes;
+use Customers\Manager\Version\VersionManager;
 
 class AuthorizationManager
 {
     public static function handleAuthorization(): void
     {
+        if ($_GET['url'] === "v" . VersionManager::VERSION) {
+            return;
+        }
 
         if (self::isAuthorized()) {
             return;
