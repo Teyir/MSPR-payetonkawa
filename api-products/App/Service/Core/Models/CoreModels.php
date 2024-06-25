@@ -31,7 +31,7 @@ class CoreModels extends AbstractModel
         $data = $req->fetchAll() ?? [];
 
         foreach ($data as $i => $item) {
-            $data[$i]['image'] = EnvManager::getInstance()->getValue('URL') . '/Public/Images/' . $item['image'];
+            $data[$i]['image'] = EnvManager::getInstance()->getValue('URL') . 'Public/Images/' . $item['image'];
         }
 
         return $data;
@@ -118,7 +118,7 @@ class CoreModels extends AbstractModel
             return [];
         }
 
-        $res['image'] = EnvManager::getInstance()->getValue('URL') . '/Public/Images/' . $res['image'];
+        $res['image'] = EnvManager::getInstance()->getValue('URL') . 'Public/Images/' . $res['image'];
 
         return $res;
     }
