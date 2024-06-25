@@ -64,7 +64,7 @@ class CoreController extends AbstractController
     #[Link("/orders", LinkTypes::POST)]
     private function createOrder(): array
     {
-        if (!isset($_POST['amount'], $_POST['price'], $_POST['product_id'], $_POST['user_id'])) {
+        if (!isset($_POST['amount'], $_POST['price'], $_POST['product_id'], $_POST['user_id'], $_POST['address'])) {
             RequestsError::returnError(RequestsErrorsTypes::WRONG_PARAMS);
         }
 
@@ -72,8 +72,9 @@ class CoreController extends AbstractController
         $price = FilterManager::filterInputFloatPost('price');
         $productId = FilterManager::filterInputIntPost('product_id', 11);
         $userId = FilterManager::filterInputIntPost('user_id', 11);
+        $address = FilterManager::filterInputStringPost("address", 500);
 
-        $orderId = CoreModels::getInstance()->create($amount, $price, $productId, $userId);
+        $orderId = CoreModels::getInstance()->create($amount, $price, $productId, $userId, $address);
 
         if (is_null($orderId)) {
             RequestsError::returnError(RequestsErrorsTypes::INTERNAL_SERVER_ERROR, ['Description' => "Unable to create order."]);

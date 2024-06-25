@@ -51,19 +51,21 @@ class CoreModels extends AbstractModel
      * @param float $price
      * @param int $productId
      * @param int $userId
+     * @param string $address
      * @return int|null
      */
-    public function create(float $amount, float $price, int $productId, int $userId): ?int
+    public function create(float $amount, float $price, int $productId, int $userId, string $address): ?int
     {
         $data = [
             'amount' => $amount,
             'price' => $price,
             'product_id' => $productId,
             'user_id' => $userId,
+            'address' => $address,
         ];
 
-        $sql = "INSERT INTO orders.orders (amount, price, product_id, user_id) 
-                        VALUES (:amount, :price, :product_id, :user_id)";
+        $sql = "INSERT INTO orders.orders (amount, price, product_id, user_id, address) 
+                        VALUES (:amount, :price, :product_id, :user_id, :address)";
 
         $db = DatabaseManager::getInstance();
         $req = $db->prepare($sql);
