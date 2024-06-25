@@ -60,6 +60,8 @@ class APIManager extends AbstractManager
             CURLOPT_HTTPHEADER => $headers,
             CURLOPT_POSTFIELDS => $postFields,
             CURLOPT_TCP_KEEPALIVE => 1,
+            CURLOPT_SSL_VERIFYHOST => 0,
+            CURLOPT_SSL_VERIFYPEER => 0,
         ]);
 
         $response = curl_exec($curl);
