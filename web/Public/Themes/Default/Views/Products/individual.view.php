@@ -29,7 +29,7 @@ Website::setDescription($product->getDescription());
             <!-- Options -->
             <div class="mt-4 lg:row-span-3 lg:mt-0">
                 <h2 class="sr-only">Informations</h2>
-                <p class="text-3xl tracking-tight text-gray-900"><?= $product->getPricePerKg() ?>€ / 1kg</p>
+                <p class="text-3xl tracking-tight text-gray-900"><?= $product->getPricePerKg() ?>€</p>
                 <form class="mt-10" action="" method="post">
                     <?php (new SecurityManager())->insertHiddenToken() ?>
                     <button type="submit"

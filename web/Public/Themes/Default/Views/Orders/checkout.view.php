@@ -1,9 +1,19 @@
 <?php
 
+use WEB\Entity\Products\ProductEntity;
+use WEB\Model\Product\ProductModel;
 use WEB\Utils\Website;
 
 Website::setTitle("Checkout");
 Website::setDescription("Finalisation de ta commande PayeTonKawa");
+
+/* @var ProductEntity[] $productList */
+
+$subtotal = 0;
+foreach ($productList as $cartItem) {
+    $item = ProductModel::getInstance()->getById($cartItem);
+    $subtotal += $item->getPricePerKg();
+}
 ?>
 
 <section class="bg-white py-20 antialiased dark:bg-gray-900 md:py-28">
@@ -61,56 +71,11 @@ Website::setDescription("Finalisation de ta commande PayeTonKawa");
                         <div class="rounded-2xl border border-gray-200 bg-gray-50 p-4 ps-4 dark:border-gray-700 dark:bg-gray-800">
                             <div class="flex items-start">
                                 <div class="flex h-5 items-center">
-                                    <input id="credit-card" aria-describedby="credit-card-text" type="radio" name="payment-method" value="" class="h-4 w-4 border-gray-300 bg-white text-primary-600 focus:ring-2 focus:ring-primary-600 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-primary-600" checked />
+                                    <input id="dhl" aria-describedby="dhl-text" type="radio" name="delivery-method" value="5" class="h-4 w-4 border-gray-300 bg-white text-primary-600 focus:ring-2 focus:ring-primary-600 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-primary-600" checked />
                                 </div>
 
                                 <div class="ms-4 text-sm">
-                                    <label for="credit-card" class="font-medium leading-none text-gray-900 dark:text-white"> Carte Bancaire </label>
-                                    <p id="credit-card-text" class="mt-1 text-xs font-normal text-gray-500 dark:text-gray-400">Payez avec votre CB</p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="rounded-2xl border border-gray-200 bg-gray-50 p-4 ps-4 dark:border-gray-700 dark:bg-gray-800">
-                            <div class="flex items-start">
-                                <div class="flex h-5 items-center">
-                                    <input id="pay-on-delivery" aria-describedby="pay-on-delivery-text" type="radio" name="payment-method" value="" class="h-4 w-4 border-gray-300 bg-white text-primary-600 focus:ring-2 focus:ring-primary-600 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-primary-600" />
-                                </div>
-
-                                <div class="ms-4 text-sm">
-                                    <label for="pay-on-delivery" class="font-medium leading-none text-gray-900 dark:text-white"> Paiement à la livraison </label>
-                                    <p id="pay-on-delivery-text" class="mt-1 text-xs font-normal text-gray-500 dark:text-gray-400">+10€ de frais</p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="rounded-2xl border border-gray-200 bg-gray-50 p-4 ps-4 dark:border-gray-700 dark:bg-gray-800">
-                            <div class="flex items-start">
-                                <div class="flex h-5 items-center">
-                                    <input id="paypal-2" aria-describedby="paypal-text" type="radio" name="payment-method" value="" class="h-4 w-4 border-gray-300 bg-white text-primary-600 focus:ring-2 focus:ring-primary-600 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-primary-600" />
-                                </div>
-
-                                <div class="ms-4 text-sm">
-                                    <label for="paypal-2" class="font-medium leading-none text-gray-900 dark:text-white"> Paypal </label>
-                                    <p id="paypal-text" class="mt-1 text-xs font-normal text-gray-500 dark:text-gray-400">Payez avec Paypal</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="space-y-4">
-                    <h3 class="text-xl font-semibold text-gray-900 dark:text-white">Méthodes de livraison</h3>
-
-                    <div class="grid grid-cols-1 gap-4 md:grid-cols-3">
-                        <div class="rounded-2xl border border-gray-200 bg-gray-50 p-4 ps-4 dark:border-gray-700 dark:bg-gray-800">
-                            <div class="flex items-start">
-                                <div class="flex h-5 items-center">
-                                    <input id="dhl" aria-describedby="dhl-text" type="radio" name="delivery-method" value="" class="h-4 w-4 border-gray-300 bg-white text-primary-600 focus:ring-2 focus:ring-primary-600 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-primary-600" checked />
-                                </div>
-
-                                <div class="ms-4 text-sm">
-                                    <label for="dhl" class="font-medium leading-none text-gray-900 dark:text-white"> 5€ - Livraison DHL Classique </label>
+                                    <label for="dhl" class="font-medium leading-none text-gray-900 dark:text-white">5€ - Livraison DHL Classique</label>
                                     <p id="dhl-text" class="mt-1 text-xs font-normal text-gray-500 dark:text-gray-400">Chez-vous dans 6/7 jours ouvrés</p>
                                 </div>
                             </div>
@@ -119,11 +84,11 @@ Website::setDescription("Finalisation de ta commande PayeTonKawa");
                         <div class="rounded-2xl border border-gray-200 bg-gray-50 p-4 ps-4 dark:border-gray-700 dark:bg-gray-800">
                             <div class="flex items-start">
                                 <div class="flex h-5 items-center">
-                                    <input id="fedex" aria-describedby="fedex-text" type="radio" name="delivery-method" value="" class="h-4 w-4 border-gray-300 bg-white text-primary-600 focus:ring-2 focus:ring-primary-600 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-primary-600" />
+                                    <input id="fedex" aria-describedby="fedex-text" type="radio" name="delivery-method" value="10" class="h-4 w-4 border-gray-300 bg-white text-primary-600 focus:ring-2 focus:ring-primary-600 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-primary-600" />
                                 </div>
 
                                 <div class="ms-4 text-sm">
-                                    <label for="fedex" class="font-medium leading-none text-gray-900 dark:text-white"> 10€ - Livraison Domicile FedEX </label>
+                                    <label for="fedex" class="font-medium leading-none text-gray-900 dark:text-white">10€ - Livraison Domicile FedEX</label>
                                     <p id="fedex-text" class="mt-1 text-xs font-normal text-gray-500 dark:text-gray-400">Chez-vous dans 2/3 jours ouvrés</p>
                                 </div>
                             </div>
@@ -132,12 +97,12 @@ Website::setDescription("Finalisation de ta commande PayeTonKawa");
                         <div class="rounded-2xl border border-gray-200 bg-gray-50 p-4 ps-4 dark:border-gray-700 dark:bg-gray-800">
                             <div class="flex items-start">
                                 <div class="flex h-5 items-center">
-                                    <input id="express" aria-describedby="express-text" type="radio" name="delivery-method" value="" class="h-4 w-4 border-gray-300 bg-white text-primary-600 focus:ring-2 focus:ring-primary-600 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-primary-600" />
+                                    <input id="chronopost" aria-describedby="chronopost-text" type="radio" name="delivery-method" value="20" class="h-4 w-4 border-gray-300 bg-white text-primary-600 focus:ring-2 focus:ring-primary-600 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-primary-600" />
                                 </div>
 
                                 <div class="ms-4 text-sm">
-                                    <label for="express" class="font-medium leading-none text-gray-900 dark:text-white"> 20€ - Livraison Express Chronopost </label>
-                                    <p id="express-text" class="mt-1 text-xs font-normal text-gray-500 dark:text-gray-400">Chez-vous demain</p>
+                                    <label for="chronopost" class="font-medium leading-none text-gray-900 dark:text-white">20€ - Livraison Express Chronopost</label>
+                                    <p id="chronopost-text" class="mt-1 text-xs font-normal text-gray-500 dark:text-gray-400">Chez-vous demain</p>
                                 </div>
                             </div>
                         </div>
@@ -146,26 +111,26 @@ Website::setDescription("Finalisation de ta commande PayeTonKawa");
             </div>
 
             <div class="mt-6 w-full space-y-6 sm:mt-8 lg:mt-0 lg:max-w-xs xl:max-w-md">
-                <div class="flow-root">
+                <div>
                     <div class="-my-3 divide-y divide-gray-200 dark:divide-gray-800">
                         <dl class="flex items-center justify-between gap-4 py-3">
                             <dt class="text-base font-normal text-gray-500 dark:text-gray-400">Sous-total</dt>
-                            <dd class="text-base font-medium text-gray-900 dark:text-white">$8,094.00</dd>
+                            <dd class="text-base font-medium text-gray-900 dark:text-white"><?= $subtotal ?>€</dd>
                         </dl>
 
                         <dl class="flex items-center justify-between gap-4 py-3">
                             <dt class="text-base font-normal text-gray-500 dark:text-gray-400">Livraison</dt>
-                            <dd class="text-base font-medium text-gray-900 dark:text-white">$99</dd>
+                            <dd id="shipping-field" class="text-base font-medium text-gray-900 dark:text-white">0€</dd>
                         </dl>
 
                         <dl class="flex items-center justify-between gap-4 py-3">
                             <dt class="text-base font-normal text-gray-500 dark:text-gray-400">TVA</dt>
-                            <dd class="text-base font-medium text-gray-900 dark:text-white">$199</dd>
+                            <dd id="tax-field" class="text-base font-medium text-gray-900 dark:text-white">0€</dd>
                         </dl>
 
                         <dl class="flex items-center justify-between gap-4 py-3">
                             <dt class="text-base font-bold text-gray-900 dark:text-white">Total</dt>
-                            <dd class="text-base font-bold text-gray-900 dark:text-white">$8,392.00</dd>
+                            <dd id="total-field" class="text-base font-bold text-gray-900 dark:text-white">0€</dd>
                         </dl>
                     </div>
                 </div>
@@ -177,3 +142,36 @@ Website::setDescription("Finalisation de ta commande PayeTonKawa");
         </div>
     </form>
 </section>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const deliveryMethods = document.getElementsByName('delivery-method');
+        const shippingField = document.getElementById('shipping-field');
+        const taxField = document.getElementById('tax-field');
+        const totalField = document.getElementById('total-field');
+        const subtotal = <?= $subtotal ?>;
+
+        function updateFields() {
+            let shippingCost = 0;
+            for (const method of deliveryMethods) {
+                if (method.checked) {
+                    shippingCost = parseFloat(method.value);
+                    break;
+                }
+            }
+            const tax = (subtotal + shippingCost) * 0.2;
+            const total = subtotal + shippingCost + tax;
+
+            shippingField.textContent = shippingCost.toFixed(2) + '€';
+            taxField.textContent = tax.toFixed(2) + '€';
+            totalField.textContent = total.toFixed(2) + '€';
+        }
+
+        for (const method of deliveryMethods) {
+            method.addEventListener('change', updateFields);
+        }
+
+        updateFields();
+    });
+</script>
+

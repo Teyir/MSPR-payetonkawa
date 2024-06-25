@@ -66,7 +66,7 @@ foreach ($cartList as $cartItem) {
                                                         <h3>
                                                             <a href="/web/products/<?= $item->getId() ?>"><?= $item->getTitle() ?></a>
                                                         </h3>
-                                                        <p class="ml-4"><?= $item->getPricePerKg() ?>€ / 1kg</p>
+                                                        <p class="ml-4"><?= $item->getPricePerKg() ?>€</p>
                                                     </div>
                                                     <p class="mt-1 text-sm text-gray-500">Il en reste <?= $item->getKgRemaining() ?>kg !</p>
                                                     <div class="flex flex-1 items-end justify-between text-sm">
