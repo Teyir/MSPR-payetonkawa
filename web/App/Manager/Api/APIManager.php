@@ -7,6 +7,7 @@ use WEB\Manager\Env\EnvManager;
 use WEB\Manager\Manager\AbstractManager;
 use WEB\Manager\Requests\HttpMethodsType;
 use WEB\Model\Users\UsersModel;
+use WEB\Utils\Log;
 
 class APIManager extends AbstractManager
 {
@@ -66,6 +67,8 @@ class APIManager extends AbstractManager
 
         $response = curl_exec($curl);
 
+        Log::debug(curl_getinfo($curl));
+        die();
         curl_close($curl);
 
         if (empty($response)) {

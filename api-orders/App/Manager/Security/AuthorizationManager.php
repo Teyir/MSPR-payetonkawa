@@ -11,7 +11,7 @@ class AuthorizationManager
 {
     public static function handleAuthorization(): void
     {
-        if ($_GET['url'] === "v" . VersionManager::VERSION) {
+        if (isset($_GET['url']) && $_GET['url'] === "v" . VersionManager::VERSION) {
             return;
         }
 
@@ -39,8 +39,7 @@ class AuthorizationManager
      */
     private static function getAuthorizationKey(): ?string
     {
-        $headers = apache_request_headers();
-        $authorizationKey = $headers['Authorization'] ?? null;
+        $authorizationKey = $_SERVER['HTTP_AUTHORIZATION'] ?? null;
 
         if (is_null($authorizationKey)) {
             return null;

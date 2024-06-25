@@ -9,8 +9,8 @@ CREATE TABLE IF NOT EXISTS orders
     date_created TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT orders_pk PRIMARY KEY (id),
     CONSTRAINT product_fk FOREIGN KEY (product_id)
-        REFERENCES products.products (id) ON DELETE NO ACTION ON UPDATE NO ACTION,
+        REFERENCES products.products (id) ON DELETE CASCADE ON UPDATE CASCADE,
     CONSTRAINT user_fk FOREIGN KEY (user_id)
-        REFERENCES customers.customers (id) ON DELETE NO ACTION ON UPDATE NO ACTION
+        REFERENCES customers.customers (id) ON DELETE CASCADE ON UPDATE CASCADE
 )
     COLLATE = utf8mb4_unicode_ci;
