@@ -2,6 +2,8 @@
 
 namespace WEB\Controller\Orders;
 
+use WEB\Manager\Flash\Alert;
+use WEB\Manager\Flash\Flash;
 use WEB\Manager\Package\AbstractController;
 use WEB\Manager\Router\Link;
 use WEB\Manager\Views\View;
@@ -18,8 +20,9 @@ class OrdersPublicController extends AbstractController {
             $products[] = ProductModel::getInstance()->getById($productId);
         }
 
-        if (is_null($products)) {
-            Redirect::redirectToHome();
+        if (empty($products)) {
+            Flash::send(Alert::WARNING, "Votre panier est vide", '');
+            Redirect::redirectPreviousRoute();
         }
 
         $view = new View('Orders', 'checkout');
