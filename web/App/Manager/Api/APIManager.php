@@ -67,8 +67,6 @@ class APIManager extends AbstractManager
 
         $response = curl_exec($curl);
 
-        Log::debug(curl_getinfo($curl));
-        die();
         curl_close($curl);
 
         if (empty($response)) {
