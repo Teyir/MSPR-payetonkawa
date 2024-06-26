@@ -5,6 +5,7 @@ namespace Products\Manager\Error;
 use JetBrains\PhpStorm\ExpectedValues;
 use JetBrains\PhpStorm\NoReturn;
 use JsonException;
+use Products\Manager\Logs\LogsManager;
 
 class RequestsError
 {
@@ -17,45 +18,46 @@ class RequestsError
         switch ($code) {
             case RequestsErrorsTypes::OVERLOAD_REQUEST:
                 $error = "overload request";
-                http_response_code(431);
+                $statusCode = 431;
                 break;
             case RequestsErrorsTypes::NON_AUTHORIZED_REQUEST:
                 $error = "non authorized request";
-                http_response_code(401);
+                $statusCode = 401;
                 break;
             case RequestsErrorsTypes::FORBIDDEN:
                 $error = "forbidden";
-                http_response_code(403);
+                $statusCode = 403;
                 break;
             case RequestsErrorsTypes::INVALID_REQUEST:
                 $error = "invalid request";
-                http_response_code(400);
+                $statusCode = 400;
                 break;
             case RequestsErrorsTypes::WRONG_PARAMS:
                 $error = "wrong params";
-                http_response_code(400);
+                $statusCode = 400;
                 break;
             case RequestsErrorsTypes::INTERNAL_SERVER_ERROR:
                 $error = "internal server error";
-                http_response_code(500);
+                $statusCode = 500;
                 break;
             case RequestsErrorsTypes::NOT_FOUND:
                 $error = "not found";
-                http_response_code(404);
+                $statusCode = 404;
                 break;
             case RequestsErrorsTypes::CONTENT_ALREADY_EXIST:
                 $error = "content already exist";
-                http_response_code(409);
+                $statusCode = 409;
                 break;
             case RequestsErrorsTypes::PAGE_EXPIRED:
                 $error = "page expired";
-                http_response_code(419);
+                $statusCode = 419;
                 break;
             case RequestsErrorsTypes::TOO_MANY_REQUESTS:
                 $error = "too many requests";
-                http_response_code(429);
+                $statusCode = 429;
                 break;
         }
+        http_response_code($statusCode ?? 500);
 
         $return['error']['code'] = $code;
         $return['error']['info'] = $error;
@@ -64,14 +66,18 @@ class RequestsError
             $return['error']['description'] = $moreInformations;
         }
 
+        LogsManager::getInstance()->emit(
+            $statusCode ?? 500,
+            'Products',
+            $_GET['url'] ?? '/',
+            json_encode($return, JSON_THROW_ON_ERROR),
+        );
+
         try {
             print(json_encode($return, JSON_THROW_ON_ERROR));
         } catch (JsonException $e) {
             print($e);
         }
-
-        // Store logs
-        //(new LogsManager())->storeLogs(); //TODO
 
         die();
     }

@@ -70,7 +70,13 @@ class CoreModels extends AbstractModel
             return [];
         }
 
-        return $req->fetch() ?? [];
+        $res = $req->fetch();
+
+        if (!$res) {
+            return [];
+        }
+
+        return $res;
     }
 
     /**

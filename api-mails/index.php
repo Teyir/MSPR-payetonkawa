@@ -1,4 +1,6 @@
 <?php
+$_SERVER['request_execution_time_start'] = microtime(true);
+
 header("Access-Control-Allow-Origin: *"); //TODO Limit that ?
 header('Content-type: application/json;charset=utf-8');
 date_default_timezone_set('Europe/Paris');
