@@ -11,6 +11,7 @@ use Mails\Manager\Error\RequestsErrorsTypes;
 use Mails\Manager\Router\Link;
 use Mails\Manager\Router\LinkTypes;
 use Mails\Manager\Security\EncryptManager;
+use Mails\Manager\Mails\MailsManager;
 use Mails\Model\Core\CoreModels;
 
 class CoreController extends AbstractController
@@ -37,19 +38,21 @@ class CoreController extends AbstractController
 
         $broker->listen('orders', function ($msg) {
 
-            print $msg->body;
-
+            //print $msg->body;
+            
             $user = CoreModels::getInstance()->getUserById($msg->body);
+
+            MailsManager::sendMailSMTP(
+                EncryptManager::decrypt($user['email']),
+                "Merci pour votre commande !",
+                "Bonjour {$user['first_name']} {$user['last_name']}, <br>Merci pour votre commande sur payetonkawa.fr !",
+            );
 
             if (empty($user)) {
                 RequestsError::returnError(RequestsErrorsTypes::NOT_FOUND, ["Description" => "Unable to find user #{$msg->body}."]);
             }
 
-            mail(
-                EncryptManager::decrypt($user['email']),
-                "Merci pour votre commande !",
-                "Bonjour {$user['first_name']} {$user['last_name']}, \nMerci pour votre commande sur payetonkawa.fr !",
-            );
+
 
             BrokerManager::getInstance()->close();
             exit;

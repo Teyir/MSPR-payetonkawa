@@ -33,7 +33,7 @@ class BrokerManager
             $user = $env->getValue("BROKER_USER");
             $pass = $env->getValue("BROKER_PASSWORD");
 
-            $this->connection = @new AMQPStreamConnection($host, $port, $user, $pass);
+            $this->connection = new AMQPStreamConnection($host, $port, $user, $pass);
         }
 
         return $this->connection;

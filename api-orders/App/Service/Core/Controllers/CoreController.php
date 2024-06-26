@@ -91,8 +91,7 @@ class CoreController extends AbstractController
             "orders",
         );
 
-        APIManager::getInstance()->send(HttpMethodsType::POST, APITypes::MAILS, 'send');
-
+       APIManager::getInstance()->send(HttpMethodsType::POST, APITypes::MAILS, 'send');
 
         CacheManager::deleteAllFiles();
 
