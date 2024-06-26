@@ -8,6 +8,7 @@ use WEB\Manager\Api\APIManager;
 use WEB\Manager\Api\APITypes;
 use WEB\Manager\Package\AbstractModel;
 use WEB\Manager\Requests\HttpMethodsType;
+use WEB\Utils\Log;
 
 class OrderModel extends AbstractModel
 {
@@ -33,9 +34,9 @@ class OrderModel extends AbstractModel
 
     /**
      * @param int $id
-     * @return \WEB\Entity\Orders\OrderEntity|null
+     * @return \WEB\Entity\Orders\OrderEntity[]|null
      */
-    public function getById(int $id): ?OrderEntity
+    public function getAllUserOrders(int $id): ?array
     {
         $req = APIManager::getInstance()->send(
             HttpMethodsType::GET,
@@ -47,7 +48,13 @@ class OrderModel extends AbstractModel
             return null;
         }
 
-        return OrderEntity::map($req);
+        $toReturn = [];
+
+        foreach ($req as $item) {
+            $toReturn[] = OrderEntity::map($item);
+        }
+
+        return $toReturn;
     }
 
     /**

@@ -20,7 +20,7 @@ class OrdersPublicController extends AbstractController {
         $products = [];
 
         foreach ($_SESSION["cart"] as $productId) {
-            $products[] = ProductModel::getInstance()->getById($productId);
+            $products[] = ProductModel::getInstance()->getById(intval($productId));
         }
 
         if (empty($products)) {
@@ -58,7 +58,10 @@ class OrdersPublicController extends AbstractController {
             'country' => FilterManager::filterInputStringPost('country'),
             'address' => FilterManager::filterInputStringPost('address'),
             'zipCode' => FilterManager::filterInputStringPost('zip-code'),
-            'city' => FilterManager::filterInputStringPost('city')
+            'city' => FilterManager::filterInputStringPost('city'),
+            'shipping' => FilterManager::filterInputStringPost('delivery-method'),
+            'card-number' => FilterManager::filterInputStringPost('card-number'),
+            'card-expiration' => FilterManager::filterInputStringPost('card-expiration'),
         ];
 
         $allFieldsFilled = true;

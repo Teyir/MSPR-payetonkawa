@@ -22,7 +22,7 @@ use WEB\Manager\Flash\Alert;
             balloon: false,
             close: true,
             pauseOnHover: true,
-            position: 'topCenter',
+            position: 'bottomRight',
             timeout: 4000,
             animateInside: false,
             progressBar: true,

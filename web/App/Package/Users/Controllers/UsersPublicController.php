@@ -9,6 +9,7 @@ use WEB\Manager\Flash\Flash;
 use WEB\Manager\Package\AbstractController;
 use WEB\Manager\Router\Link;
 use WEB\Manager\Views\View;
+use WEB\Model\Orders\OrderModel;
 use WEB\Model\Users\UsersModel;
 use WEB\Utils\Redirect;
 
@@ -22,6 +23,20 @@ class UsersPublicController extends AbstractController
         }
 
         $view = new View("Users", "login");
+        $view->view();
+    }
+
+    #[Link('/profile', Link::GET)]
+    private function frontProfile(): void
+    {
+        if (!$user = UsersModel::getInstance()->getCurrentUser()) {
+            Redirect::redirectToHome();
+        }
+
+        $orders = OrderModel::getInstance()->getAllUserOrders($user->getId());
+
+        $view = new View("Users", "profile");
+        $view->addVariableList(["user" => $user, "orders" => $orders]);
         $view->view();
     }
 

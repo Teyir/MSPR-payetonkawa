@@ -14,8 +14,8 @@ Website::setDescription($product->getDescription());
 <div class="py-16 sm:py-24 bg-white">
     <div class="pt-6">
         <!-- Image gallery -->
-        <div class="mx-auto mt-6 max-w-2xl sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-3 lg:gap-x-8 lg:px-8">
-            <div class="aspect-h-4 aspect-w-3 hidden overflow-hidden rounded-lg lg:block">
+        <div class="mx-auto max-w-2xl sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-3 lg:gap-x-8 lg:px-8">
+            <div class="aspect-h-5 aspect-w-4 lg:aspect-h-4 lg:aspect-w-3 sm:overflow-hidden sm:rounded-xl">
                 <img src="<?= $product->getImage() ?>"
                      alt="<?= $product->getTitle() ?>"
                      class="h-full w-full object-cover object-center">
@@ -33,8 +33,9 @@ Website::setDescription($product->getDescription());
                 <form class="mt-10" action="" method="post">
                     <?php (new SecurityManager())->insertHiddenToken() ?>
                     <button type="submit"
-                            class="mt-10 flex w-full rounded-2xl items-center justify-center rounded-2xl border border-transparent bg-orange-600 px-8 py-3 text-base font-medium text-white hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2">
-                        Ajouter au panier
+                            class="mt-10 flex w-full rounded-2xl items-center justify-center rounded-2xl border border-transparent px-8 py-3 bg-orange-600 text-base font-medium text-white hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 <?= $product->getKgRemaining() <= 0 ? "opacity-50" : "" ?>"
+                            <?= $product->getKgRemaining() <= 0 ? "disabled" : "" ?>>
+                        <?= $product->getKgRemaining() <= 0 ? "Sold out" : "Ajouter au panier" ?>
                     </button>
                 </form>
             </div>

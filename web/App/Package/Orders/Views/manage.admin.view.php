@@ -4,6 +4,8 @@ use WEB\Utils\Website;
 
 Website::setTitle("Gestion des commandes");
 Website::setDescription("Gérez les commandes.");
+
+/* @var \WEB\Entity\Orders\OrderEntity[] $orders */
 ?>
 
 <div class="content">
@@ -22,24 +24,19 @@ Website::setDescription("Gérez les commandes.");
                                 <th>Product</th>
                                 <th>Total</th>
                                 <th>User</th>
-                                <th></th>
+                                <th>Address</th>
                             </tr>
                             </thead>
                             <tbody>
+                            <?php foreach ($orders as $order) : ?>
                                 <tr>
-                                    <td>1</td>
-                                    <td>Café cool</td>
-                                    <td>20€</td>
-                                    <td>HowBaka</td>
-                                    <td>
-                                        <a href="#" class="text-primary mr-3">
-                                            <i class="fa fa-cog"></i>
-                                        </a>
-                                        <a href="#" class="text-danger mr-3">
-                                            <i class="fa fa-trash"></i>
-                                        </a>
-                                    </td>
+                                    <td><?= $order->getId() ?></td>
+                                    <td><?= $order->getProductId() ?></td>
+                                    <td><?= $order->getPrice() ?>€</td>
+                                    <td><?= $order->getUserId() ?></td>
+                                    <td><?= $order->getAddress() ?></td>
                                 </tr>
+                            <?php endforeach; ?>
                             </tbody>
                         </table>
                     </div>

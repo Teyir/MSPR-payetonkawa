@@ -42,6 +42,13 @@ class ProductsPublicController extends AbstractController {
     #[NoReturn] #[Link("/products/:productId", Link::POST, ["productId" => ".*?"])]
     public function publicAddToCart(string $productId): void
     {
+        $product = ProductModel::getInstance()->getById($productId);
+
+        if ($product->getKgRemaining() <= 0) {
+            Flash::send(Alert::WARNING, "Ce produit est n'est plus en stock", '');
+            Redirect::redirectPreviousRoute();
+        }
+
         if (!isset($_SESSION["cart"])) {
             $_SESSION["cart"] = [];
         }
