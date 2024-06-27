@@ -8,6 +8,7 @@ use WEB\Manager\Flash\Alert;
 use WEB\Manager\Flash\Flash;
 use WEB\Manager\Package\AbstractController;
 use WEB\Manager\Router\Link;
+use WEB\Manager\Security\CaptchaManager;
 use WEB\Manager\Views\View;
 use WEB\Model\Orders\OrderModel;
 use WEB\Model\Users\UsersModel;
@@ -43,6 +44,11 @@ class UsersPublicController extends AbstractController
     #[NoReturn] #[Link('/login', Link::POST)]
     private function frontLoginPost(): void
     {
+        if (!CaptchaManager::getInstance()->validateReCaptha()) {
+            Flash::send(Alert::ERROR, 'Erreur', "Merci de remplir le captcha.");
+            Redirect::redirectPreviousRoute();
+        }
+
         $email = FilterManager::filterInputStringPost('email');
         $password = FilterManager::filterInputStringPost('password');
 
@@ -69,6 +75,11 @@ class UsersPublicController extends AbstractController
     #[NoReturn] #[Link('/register', Link::POST)]
     private function frontRegisterPost(): void
     {
+        if (!CaptchaManager::getInstance()->validateReCaptha()) {
+            Flash::send(Alert::ERROR, 'Erreur', "Merci de remplir le captcha.");
+            Redirect::redirectPreviousRoute();
+        }
+
         $firstName = FilterManager::filterInputStringPost('first_name');
         $lastName = FilterManager::filterInputStringPost('last_name');
         $email = FilterManager::filterInputStringPost('email');
