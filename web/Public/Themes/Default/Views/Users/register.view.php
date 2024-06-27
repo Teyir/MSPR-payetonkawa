@@ -1,5 +1,6 @@
 <?php
 
+use WEB\Manager\Security\CaptchaManager;
 use WEB\Manager\Security\SecurityManager;
 use WEB\Utils\Website;
 
@@ -51,8 +52,8 @@ Website::setDescription("Inscrivez-vous sur PayeTonKawa.fr");
                     </div>
                 </div>
 
-                <div class="mx-auto">
-                    <!-- TODO : Captcha here -->
+                <div class="flex justify-center">
+                    <?php CaptchaManager::getInstance()->getPublicReCaptchaData() ?>
                 </div>
 
                 <div>

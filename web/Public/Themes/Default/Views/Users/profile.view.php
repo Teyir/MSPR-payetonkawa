@@ -10,6 +10,10 @@ Website::setDescription("Votre profil PayeTonKawa.fr");
 
 /* @var UserEntity $user */
 /* @var OrderEntity[] $orders */
+
+if ($orders) {
+    $orders = array_reverse($orders);
+}
 ?>
 
 <section class="max-w-7xl px-8 py-16 mx-auto my-10 bg-white overflow-hidden">
@@ -23,7 +27,7 @@ Website::setDescription("Votre profil PayeTonKawa.fr");
         </div>
     </div>
     <div class="space-y-4">
-        <?php foreach (array_reverse($orders) as $order): ?>
+        <?php foreach ($orders as $order): ?>
             <?php $product = ProductModel::getInstance()->getById($order->getProductId()) ?>
             <div class="bg-zinc-100 shadow-md rounded-2xl border border-zinc-600">
                 <div class="p-4">
@@ -57,5 +61,11 @@ Website::setDescription("Votre profil PayeTonKawa.fr");
                 </div>
             </div>
         <?php endforeach;?>
+        <?php if(!$orders): ?>
+            <div class="text-center mt-10">
+                <p class="text-2xl tracking-tighter font-semibold mb-2">C'est un peu vide, mais on peut arranger ça</p>
+                <a href="/products" class="btn">Voir les produits</a>
+            </div>
+        <?php endif; ?>
     </div>
 </section>
